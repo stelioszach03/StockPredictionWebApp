@@ -6,8 +6,7 @@ from sklearn.preprocessing import MinMaxScaler
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, LSTM
 import streamlit as st
-from datetime import date
-
+from datetime import datetime
 
 # Τίτλος της εφαρμογής Streamlit
 st.title('Stock Trend Prediction')
@@ -15,11 +14,13 @@ st.title('Stock Trend Prediction')
 # Δημιουργία πεδίου εισαγωγής για τον χρήστη, προεπιλεγμένο στο 'AAPL'
 user_input = st.text_input('Enter Stock Ticker', 'AAPL')
 
-# Χρήση του date_input για να επιλέγει ο χρήστης την ημερομηνία έναρξης και λήξης
-start = st.date_input('Start Date', value=pd.to_datetime('2010-01-01'))
-end = st.date_input('End Date', value=pd.to_datetime('2023-12-31'), max_value=pd.to_datetime('2023-12-31'))
+# Ορισμός της περιόδου που θα εξετάσουμε
+start = '2010-01-01'
+end = '2023-12-31'
+
 # Ανάκτηση δεδομένων της μετοχής από το Yahoo Finance
 df = yf.download(user_input, start=start, end=end)
+
 
 # Υπολογισμός των μέσων τιμών κινήσεων για 100 και 200 ημέρες
 ma100 = df['Close'].rolling(window=100).mean()
